@@ -1,5 +1,6 @@
 import { getStravaActivities } from '@/lib/strava/api'
 import { getStravaContext } from '@/lib/strava/context'
+import { ActivityTable } from './_components/ActivityTable'
 
 export default async function DashboardPage() {
 	const ctx = await getStravaContext()
@@ -9,15 +10,12 @@ export default async function DashboardPage() {
 	})
 
 	return (
-		<div>
-			dashboard page
-			<ul>
-				{activities.map((a) => (
-					<li key={a.id}>
-						{a.name} · {a.distance}m
-					</li>
-				))}
-			</ul>
+		<div className="flex flex-1 p-8 h-full">
+			<header>dashboard page</header>
+
+			<div className="">
+				<ActivityTable activities={activities}></ActivityTable>
+			</div>
 		</div>
 	)
 }

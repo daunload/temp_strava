@@ -1,4 +1,5 @@
 import type { StravaContext } from './context'
+import { SummaryActivity } from './types'
 
 const STRAVA_API_BASE = 'https://www.strava.com'
 
@@ -47,7 +48,7 @@ export interface GetActivitiesOptions {
 export async function getStravaActivities(
 	ctx: StravaContext,
 	options: GetActivitiesOptions = {},
-) {
+): Promise<SummaryActivity[]> {
 	const { page = 1, perPage = 10, after, before } = options
 
 	return await stravaFetch(ctx, '/athlete/activities', {

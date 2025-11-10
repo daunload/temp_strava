@@ -1,4 +1,5 @@
-import { SideBar } from '@/components/layout/sidebar'
+import { AppSidebar } from '@/components/layout/sidebar'
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
@@ -28,9 +29,14 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				<div className="flex">
-					<SideBar />
-					<main className="flex-1">{children}</main>
+				<div className="bg-background relative z-10 flex min-h-svh flex-col">
+					<SidebarProvider>
+						<AppSidebar></AppSidebar>
+						<main className="bg-neutral-200 w-full">
+							<SidebarTrigger />
+							{children}
+						</main>
+					</SidebarProvider>
 				</div>
 			</body>
 		</html>

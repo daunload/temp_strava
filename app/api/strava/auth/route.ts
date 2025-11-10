@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { exchangeStravaCodeForToken } from '@/lib/strava/oauth'
 
 export async function GET(req: NextRequest) {
 	const { searchParams } = new URL(req.url)
@@ -10,33 +11,8 @@ export async function GET(req: NextRequest) {
 		)
 	}
 
-	const clientId = process.env.STRAVA_CLIENT_ID
-	const clientSecret = process.env.STRAVA_CLIENT_SECRET
-
-	if (!clientId || !clientSecret) {
-		return NextResponse.json(
-			{ error: '환경변수 설징이 잘못되었습니다.' },
-			{ status: 500 },
-		)
-	}
-
-	const params = new URLSearchParams()
-	params.append('client_id', clientId)
-	params.append('client_secret', clientSecret)
-	params.append('code', code)
-	params.append('grant_type', 'authorization_code')
-
-	const oauthResponse = await fetch('https://www.strava.com/oauth/token', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/x-www-form-urlencoded',
-		},
-		body: params.toString(),
-	})
-
-	const oauthData = await oauthResponse.json()
-
-	const { access_token, refresh_token, expires_at, athlete } = oauthData
+	const { access_token, refresh_token, expires_at, athlete } =
+		await exchangeStravaCodeForToken(code)
 
 	const res = NextResponse.redirect(new URL('/strava/dashboard', req.url))
 
