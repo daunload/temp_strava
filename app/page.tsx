@@ -11,9 +11,8 @@ export default async function Page() {
 	}
 
 	return (
-		<div className="dark:bg-neutral-800 h-full">
-			<header></header>
-			<div className="flex justify-center items-center h-full">
+		<div className="flex items-center justify-center h-full">
+			<div className="mx-auto grid max-w-[520px] flex-1 auto-rows-max gap-4 text-center">
 				<a href="/api/strava">
 					<Button>strava 인증하기</Button>
 				</a>

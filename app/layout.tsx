@@ -1,5 +1,8 @@
 import { AppSidebar } from '@/components/layout/sidebar'
-import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { Button } from '@/components/ui/button'
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { SidebarProvider } from '@/components/ui/sidebar'
+import { Menu } from 'lucide-react'
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
@@ -29,13 +32,16 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				<div className="bg-background relative z-10 flex min-h-svh flex-col">
+				<div className="grid min-h-screen w-full">
 					<SidebarProvider>
-						<AppSidebar></AppSidebar>
-						<main className="bg-neutral-200 w-full">
-							<SidebarTrigger />
-							{children}
-						</main>
+						<div className="hidden border-r bg-muted/40 md:block">
+							<AppSidebar />
+						</div>
+						<div className="flex-1 w-full bg-gray-100/40 dark:bg-gray-800/40">
+							<main className=" flex-1 w-full flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+								{children}
+							</main>
+						</div>
 					</SidebarProvider>
 				</div>
 			</body>
