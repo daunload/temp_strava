@@ -79,7 +79,7 @@ export function StockChart({ title, stockCandles }: StockChartProps) {
 	}, [])
 
 	return (
-		<div className="w-full h-80 border-gray-300 p-4">
+		<div className="w-full border-gray-300 p-4">
 			<h2 className="text-md text-gray-800 mb-2 font-bold">{title}</h2>
 			<div ref={containerRef} />
 		</div>

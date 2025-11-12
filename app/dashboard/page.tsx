@@ -1,10 +1,11 @@
-import { Card } from '@/components/ui/card'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { convertToPaceCandles } from '@/features/activity/candles'
 import { convertToCadenceCandles } from '@/features/activity/candles/cadence.mapper'
 import { convertToHeartRateCandles } from '@/features/activity/candles/heartRate.mapper'
 import { convertToRunCandles } from '@/features/activity/candles/running.mapper'
 import { getStravaActivities } from '@/lib/strava/api'
 import { getStravaContext } from '@/lib/strava/context'
+import { ActivityTable } from './_components/ActivityTable'
 import StockCard from './_components/StockCard'
 import { StockChart } from './_components/StockChart'
 
@@ -29,7 +30,7 @@ export default async function DashboardPage() {
 
 	return (
 		<div className="flex flex-1 flex-col gap-4">
-			<div className="grid gap-2 md:grid-cols-2 lg:grid-cols-4 w-full">
+			<div className="grid gap-2 grid-cols-2 lg:grid-cols-4 w-full">
 				{stockData.map((data) => (
 					<StockCard
 						key={data.title}
@@ -38,8 +39,18 @@ export default async function DashboardPage() {
 					/>
 				))}
 			</div>
-			<Card className="w-full">
+			<Card className="w-full p-0">
 				<StockChart title="러닝 지수" stockCandles={runCandles} />
+			</Card>
+			<Card>
+				<CardHeader>
+					<p className="text-lg font-bold text-muted-foreground">
+						러닝량
+					</p>
+				</CardHeader>
+				<CardContent>
+					<ActivityTable activities={activities}></ActivityTable>
+				</CardContent>
 			</Card>
 		</div>
 	)

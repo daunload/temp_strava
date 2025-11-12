@@ -24,7 +24,7 @@ export default function StockCard({ title, stockCandles }: StockCardProps) {
 
 	return (
 		<Card className="w-full gap-0 hover:bg-accent transition-colors cursor-pointer">
-			<CardHeader className="pb-2">
+			<CardHeader className="">
 				<p className="text-lg font-bold text-muted-foreground">
 					{title}
 				</p>

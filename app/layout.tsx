@@ -37,8 +37,8 @@ export default function RootLayout({
 						<div className="hidden border-r bg-muted/40 md:block">
 							<AppSidebar />
 						</div>
-						<div className="flex-1 w-full bg-gray-100/40 dark:bg-gray-800/40">
-							<main className=" flex-1 w-full h-full flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+						<div className="flex-1 w-full bg-gray-100/40 dark:bg-gray-800/40 flex justify-center">
+							<main className=" flex-1 w-full h-full flex-col gap-4 p-4 lg:gap-6 lg:p-6 max-w-[1080px]">
 								{children}
 							</main>
 						</div>
