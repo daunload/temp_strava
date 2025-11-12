@@ -20,8 +20,8 @@ function groupActivitiesByDate(
 	return byDate
 }
 
-/** 심박수 데이터를 캔들 데이터로 변환 */
-function createHeartRateCandles(
+/** 페이스 데이터를 캔들 데이터로 변환 */
+function createPaceeCandles(
 	activitiesByDate: Map<string, SummaryActivity[]>,
 ): DailyCandle[] {
 	const sortedDates = Array.from(activitiesByDate.keys()).toSorted()
@@ -34,18 +34,13 @@ function createHeartRateCandles(
 			new Date(activities[0].start_date_local),
 		)
 
-		const averageHeartRate =
+		const averagePace =
 			activities.reduce((sum, a) => {
-				return sum + (a.average_heartrate ?? 0)
+				return sum + Math.floor(a.moving_time / (a.distance / 1000))
 			}, 0) / activities.length
 
-		const averageMaxHeartRate =
-			activities.reduce((sum, a) => {
-				return sum + (a.max_heartrate ?? 0)
-			}, 0) / activities.length
-
-		const openPrice = lastPrice ?? averageHeartRate
-		const closePrice = averageMaxHeartRate
+		const openPrice = lastPrice ?? 0
+		const closePrice = averagePace
 
 		candles.push({
 			dateKey: date,
@@ -62,14 +57,12 @@ function createHeartRateCandles(
 	return candles
 }
 
-/** 심박수 데이터를 캔들 데이터로 변환 */
-export function convertToHeartRateCandles(
+/** 페이스 데이터를 캔들 데이터로 변환 */
+export function convertToPaceCandles(
 	activities: SummaryActivity[],
 ): StockCandle[] {
 	const runActivities = activities.filter(
-		(activity) =>
-			(activity.sport_type === 'Run' || activity.type === 'Run') &&
-			activity.has_heartrate,
+		(activity) => activity.sport_type === 'Run' || activity.type === 'Run',
 	)
 
 	if (runActivities.length === 0) return []
@@ -81,9 +74,9 @@ export function convertToHeartRateCandles(
 	)
 
 	const activitiesByDate = groupActivitiesByDate(sortedActivities)
-	const heartRateCandles = createHeartRateCandles(activitiesByDate)
+	const paceCandles = createPaceeCandles(activitiesByDate)
 
-	return heartRateCandles.map((candle) => {
+	return paceCandles.map((candle) => {
 		return {
 			date: candle.dateKey,
 			openClose: [candle.open, candle.close],

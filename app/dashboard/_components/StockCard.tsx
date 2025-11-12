@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { StockCandle } from '@/lib/strava/activityCandles'
+import { StockCandle } from '@/features/activity/candles'
 
 interface StockCardProps {
 	title: string
@@ -19,13 +19,13 @@ export default function StockCard({ title, stockCandles }: StockCardProps) {
 				? 'text-blue-500'
 				: 'text-muted-foreground'
 
-	const formattedClosePrice = `${closePrice.toLocaleString('ko-KR')}원`
+	const formattedClosePrice = `${closePrice.toLocaleString('ko-KR')}`
 	const formattedChange = `${change > 0 ? '+' : ''}${change.toFixed(1)}%`
 
 	return (
-		<Card className="w-full">
+		<Card className="w-full gap-0 hover:bg-accent transition-colors cursor-pointer">
 			<CardHeader className="pb-2">
-				<p className="text-lg font-medium text-muted-foreground">
+				<p className="text-lg font-bold text-muted-foreground">
 					{title}
 				</p>
 			</CardHeader>

@@ -39,6 +39,7 @@ export interface SummaryActivity {
 	upload_id_str?: string
 	average_speed?: number
 	max_speed?: number
+    average_cadence: number
 	has_kudoed: boolean
 	hide_from_home: boolean
 	gear_id?: string

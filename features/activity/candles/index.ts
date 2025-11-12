@@ -1,2 +1,5 @@
+export { convertToCadenceCandles } from './cadence.mapper'
 export type { StockCandle } from './candles.types'
+export { convertToHeartRateCandles } from './heartRate.mapper'
+export { convertToPaceCandles } from './pace.mapper'
 export { convertToRunCandles } from './running.mapper'

@@ -1,7 +1,10 @@
+import { Card } from '@/components/ui/card'
+import { convertToPaceCandles } from '@/features/activity/candles'
+import { convertToCadenceCandles } from '@/features/activity/candles/cadence.mapper'
+import { convertToHeartRateCandles } from '@/features/activity/candles/heartRate.mapper'
 import { convertToRunCandles } from '@/features/activity/candles/running.mapper'
 import { getStravaActivities } from '@/lib/strava/api'
 import { getStravaContext } from '@/lib/strava/context'
-import { ActivityTable } from './_components/ActivityTable'
 import StockCard from './_components/StockCard'
 import { StockChart } from './_components/StockChart'
 
@@ -13,29 +16,31 @@ export default async function DashboardPage() {
 	})
 
 	const runCandles = convertToRunCandles(activities)
+	const heartRateCandles = convertToHeartRateCandles(activities)
+	const cadenceCandles = convertToCadenceCandles(activities)
+	const paceCandles = convertToPaceCandles(activities)
+
+	const stockData = [
+		{ title: '러닝 지수', stockCandles: runCandles },
+		{ title: '심박수', stockCandles: heartRateCandles },
+		{ title: '케이던스', stockCandles: cadenceCandles },
+		{ title: '페이스', stockCandles: paceCandles },
+	]
 
 	return (
-		<>
-			<div className="flex flex-1 rounded-lg shadow-sm">
-				<div className="flex gap-2 w-full">
+		<div className="flex flex-1 flex-col gap-4">
+			<div className="grid gap-2 md:grid-cols-2 lg:grid-cols-4 w-full">
+				{stockData.map((data) => (
 					<StockCard
-						title="러닝 지수"
-						stockCandles={runCandles}
-					></StockCard>
-					<StockCard
-						title="러닝 지수"
-						stockCandles={runCandles}
-					></StockCard>
-					<StockCard
-						title="러닝 지수"
-						stockCandles={runCandles}
-					></StockCard>
-					<StockCard
-						title="러닝 지수"
-						stockCandles={runCandles}
-					></StockCard>
-				</div>
+						key={data.title}
+						title={data.title}
+						stockCandles={data.stockCandles}
+					/>
+				))}
 			</div>
-		</>
+			<Card className="w-full">
+				<StockChart title="러닝 지수" stockCandles={runCandles} />
+			</Card>
+		</div>
 	)
 }
