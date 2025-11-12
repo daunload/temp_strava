@@ -1,6 +1,6 @@
 'use client'
 
-import { StockCandle } from '@/lib/strava/activityCandles'
+import { StockCandle } from '@/features/activity/candles'
 import { formatDateForLWC } from '@/lib/time'
 import {
 	CandlestickData,

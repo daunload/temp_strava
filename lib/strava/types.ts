@@ -1,12 +1,3 @@
-interface MetaAthlete {
-	id: number
-}
-
-type ActivityType = string
-type SportType = string
-
-type LatLng = [number, number]
-
 interface PolylineMap {
 	id: string
 	summary_polyline: string
@@ -16,7 +7,7 @@ export interface SummaryActivity {
 	id: number
 	external_id?: string
 	upload_id?: number
-	athlete: MetaAthlete
+	athlete: { id: number }
 	name: string
 	distance: number
 	moving_time: number
@@ -24,13 +15,13 @@ export interface SummaryActivity {
 	total_elevation_gain: number
 	elev_high?: number
 	elev_low?: number
-	type?: ActivityType
-	sport_type: SportType
+	type?: string
+	sport_type: string
 	start_date: string
 	start_date_local: string
 	timezone: string
-	start_latlng?: LatLng
-	end_latlng?: LatLng
+	start_latlng?: [number, number]
+	end_latlng?: [number, number]
 	achievement_count: number
 	kudos_count: number
 	comment_count: number

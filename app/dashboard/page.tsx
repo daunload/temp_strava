@@ -1,8 +1,4 @@
-import { Card, CardContent } from '@/components/ui/card'
-import {
-	convertToDailyCandles,
-	convertToWeeklyCandles,
-} from '@/lib/strava/activityCandles'
+import { convertToRunCandles } from '@/features/activity/candles/running.mapper'
 import { getStravaActivities } from '@/lib/strava/api'
 import { getStravaContext } from '@/lib/strava/context'
 import { ActivityTable } from './_components/ActivityTable'
@@ -16,7 +12,7 @@ export default async function DashboardPage() {
 		perPage: 100,
 	})
 
-	const activityCandles = convertToDailyCandles(activities)
+	const runCandles = convertToRunCandles(activities)
 
 	return (
 		<>
@@ -24,19 +20,19 @@ export default async function DashboardPage() {
 				<div className="flex gap-2 w-full">
 					<StockCard
 						title="러닝 지수"
-						stockCandles={activityCandles}
+						stockCandles={runCandles}
 					></StockCard>
 					<StockCard
 						title="러닝 지수"
-						stockCandles={activityCandles}
+						stockCandles={runCandles}
 					></StockCard>
 					<StockCard
 						title="러닝 지수"
-						stockCandles={activityCandles}
+						stockCandles={runCandles}
 					></StockCard>
 					<StockCard
 						title="러닝 지수"
-						stockCandles={activityCandles}
+						stockCandles={runCandles}
 					></StockCard>
 				</div>
 			</div>
