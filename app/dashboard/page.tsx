@@ -6,6 +6,7 @@ import {
 import { getStravaActivities } from '@/lib/strava/api'
 import { getStravaContext } from '@/lib/strava/context'
 import { ActivityTable } from './_components/ActivityTable'
+import StockCard from './_components/StockCard'
 import { StockChart } from './_components/StockChart'
 
 export default async function DashboardPage() {
@@ -15,22 +16,29 @@ export default async function DashboardPage() {
 		perPage: 100,
 	})
 
-	const activityCandles = convertToWeeklyCandles(activities)
+	const activityCandles = convertToDailyCandles(activities)
 
 	return (
 		<>
 			<div className="flex flex-1 rounded-lg shadow-sm">
-				<Card className="w-full">
-					{/* <CardContent>
-						<ActivityTable activities={activities}></ActivityTable>
-					</CardContent> */}
-					<CardContent>
-						<StockChart
-							title="러닝 지수 (일간) - 나에게 투자한 그래프 📈"
-							stockCandles={activityCandles}
-						></StockChart>
-					</CardContent>
-				</Card>
+				<div className="flex gap-2 w-full">
+					<StockCard
+						title="러닝 지수"
+						stockCandles={activityCandles}
+					></StockCard>
+					<StockCard
+						title="러닝 지수"
+						stockCandles={activityCandles}
+					></StockCard>
+					<StockCard
+						title="러닝 지수"
+						stockCandles={activityCandles}
+					></StockCard>
+					<StockCard
+						title="러닝 지수"
+						stockCandles={activityCandles}
+					></StockCard>
+				</div>
 			</div>
 		</>
 	)

@@ -1,5 +1,6 @@
 'use client'
 
+import { StockCandle } from '@/lib/strava/activityCandles'
 import { formatDateForLWC } from '@/lib/time'
 import {
 	CandlestickData,
@@ -9,12 +10,6 @@ import {
 	IChartApi,
 } from 'lightweight-charts'
 import { useEffect, useRef } from 'react'
-
-export interface StockCandle {
-	date: string
-	openClose: [number, number]
-	highLow: [number, number]
-}
 
 interface StockChartProps {
 	title: string
@@ -31,6 +26,8 @@ export function StockChart({ title, stockCandles }: StockChartProps) {
 		const container = containerRef.current
 
 		const chart = createChart(container, {
+			width: container.clientWidth,
+			height: 200,
 			layout: {
 				background: { type: ColorType.Solid },
 				textColor: '#1f2937',
@@ -75,18 +72,7 @@ export function StockChart({ title, stockCandles }: StockChartProps) {
 
 		chart.timeScale().fitContent()
 
-		const resizeObserver = new ResizeObserver((entries) => {
-			const entry = entries[0]
-			if (!entry) return
-
-			const { width, height } = entry.contentRect
-			chart.resize(width, height)
-		})
-
-		resizeObserver.observe(container)
-
 		return () => {
-			resizeObserver.disconnect()
 			chart.remove()
 			chartRef.current = null
 		}
@@ -94,8 +80,8 @@ export function StockChart({ title, stockCandles }: StockChartProps) {
 
 	return (
 		<div className="w-full h-80 border-gray-300 p-4">
-			<h2 className="text-md text-gray-800 mb-2">{title}</h2>
-			<div ref={containerRef} className="w-full h-[calc(100%-1.5rem)]" />
+			<h2 className="text-md text-gray-800 mb-2 font-bold">{title}</h2>
+			<div ref={containerRef} />
 		</div>
 	)
 }

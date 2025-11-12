@@ -1,4 +1,3 @@
-import { StockCandle } from '@/app/dashboard/_components/StockChart'
 import { SummaryActivity } from './types'
 
 const INITIAL_PRICE = 1000
@@ -143,6 +142,12 @@ function createDailyCandles(
 	}
 
 	return candles
+}
+
+export interface StockCandle {
+	date: string
+	openClose: [number, number]
+	highLow: [number, number]
 }
 
 function convertWeeklyCandles(candles: DailyCandle[]): StockCandle[] {
