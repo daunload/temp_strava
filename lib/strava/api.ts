@@ -1,5 +1,5 @@
 import type { StravaContext } from './context'
-import { SummaryActivity } from './types'
+import { DetailedAthlete, SummaryActivity } from './types'
 
 const STRAVA_API_BASE = 'https://www.strava.com'
 
@@ -48,10 +48,10 @@ export interface GetActivitiesOptions {
 export async function getStravaActivities(
 	ctx: StravaContext,
 	options: GetActivitiesOptions = {},
-): Promise<SummaryActivity[]> {
+) {
 	const { page = 1, perPage = 10, after, before } = options
 
-	return await stravaFetch(ctx, '/athlete/activities', {
+	return await stravaFetch<SummaryActivity[]>(ctx, '/athlete/activities', {
 		page,
 		per_page: perPage,
 		after,
@@ -59,6 +59,6 @@ export async function getStravaActivities(
 	})
 }
 
-export async function getStravaProfile(ctx: StravaContext) {
-	return await stravaFetch(ctx, '/athlete')
+export async function getAthlete(ctx: StravaContext) {
+	return await stravaFetch<DetailedAthlete>(ctx, '/athlete')
 }

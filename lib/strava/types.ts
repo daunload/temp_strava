@@ -39,7 +39,7 @@ export interface SummaryActivity {
 	upload_id_str?: string
 	average_speed?: number
 	max_speed?: number
-    average_cadence: number
+	average_cadence: number
 	has_kudoed: boolean
 	hide_from_home: boolean
 	gear_id?: string
@@ -53,4 +53,35 @@ export interface SummaryActivity {
 	max_heartrate?: number
 	pr_count?: number
 	suffer_score?: number
+}
+
+export interface DetailedAthlete {
+	id: bigint
+	username: string
+	resource_state: 3
+	firstname: string
+	lastname: string
+	city: string
+	state: string
+	country: string
+	sex: string
+	premium: true
+	created_at: string
+	updated_at: string
+	badge_type_id: 4
+	profile_medium: string
+	profile: string
+	friend: any
+	follower: any
+	follower_count: number
+	friend_count: number
+	mutual_friend_count: number
+	athlete_type: number
+	date_preference: string
+	measurement_preference: string
+	clubs: any[]
+	ftp: any
+	weight: number
+	bikes: any
+	shoes: any[]
 }

@@ -6,6 +6,7 @@ import { convertToRunCandles } from '@/features/activity/candles/running.mapper'
 import { getStravaActivities } from '@/lib/strava/api'
 import { getStravaContext } from '@/lib/strava/context'
 import { ActivityTable } from './_components/ActivityTable'
+import { DailyPriceTable } from './_components/DailyPriceTable'
 import StockCard from './_components/StockCard'
 import { StockChart } from './_components/StockChart'
 
@@ -41,6 +42,9 @@ export default async function DashboardPage() {
 			</div>
 			<Card className="w-full p-0">
 				<StockChart title="러닝 지수" stockCandles={runCandles} />
+			</Card>
+			<Card>
+				<DailyPriceTable stockCandles={runCandles} />
 			</Card>
 			<Card>
 				<CardHeader>

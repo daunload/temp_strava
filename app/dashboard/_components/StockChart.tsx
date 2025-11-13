@@ -77,10 +77,30 @@ export function StockChart({ title, stockCandles }: StockChartProps) {
 			chartRef.current = null
 		}
 	}, [])
+	const lastCandle = stockCandles.at(-1)
+	const closePrice = lastCandle?.openClose[1] ?? 0
+	const openPrice = lastCandle?.openClose[0] ?? 0
+	const change = ((closePrice - openPrice) / openPrice) * 100
+	const changeColorClass =
+		change > 0
+			? 'text-red-500'
+			: change < 0
+				? 'text-blue-500'
+				: 'text-muted-foreground'
+
+	const formattedChange = `${change > 0 ? '+' : ''}${closePrice - openPrice} (${change.toFixed(1)}%)`
 
 	return (
 		<div className="w-full border-gray-300 p-4">
-			<h2 className="text-md text-gray-800 mb-2 font-bold">{title}</h2>
+			<h2 className="text-lg font-bold text-muted-foreground mb-2">
+				{title}
+			</h2>
+			<p className="font-bold text-2xl">
+				{`${stockCandles.at(-1)?.openClose[1]}원`}
+			</p>
+			<p className={`text-sm font-bold mb-4 ${changeColorClass}`}>
+				{formattedChange}
+			</p>
 			<div ref={containerRef} />
 		</div>
 	)
