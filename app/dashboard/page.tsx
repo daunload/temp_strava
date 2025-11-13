@@ -44,7 +44,14 @@ export default async function DashboardPage() {
 				<StockChart title="러닝 지수" stockCandles={runCandles} />
 			</Card>
 			<Card>
-				<DailyPriceTable stockCandles={runCandles} />
+				<CardHeader>
+					<p className="text-lg font-bold text-muted-foreground">
+						일별 시세
+					</p>
+				</CardHeader>
+				<CardContent>
+					<DailyPriceTable stockCandles={runCandles} />
+				</CardContent>
 			</Card>
 			<Card>
 				<CardHeader>

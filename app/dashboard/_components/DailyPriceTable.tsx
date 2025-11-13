@@ -17,6 +17,7 @@ import {
 	TableRow,
 } from '@/components/ui/table'
 import { StockCandle } from '@/features/activity/candles'
+import { formatDateForLWC } from '@/lib/time'
 import { useState } from 'react'
 
 interface DailyPriceProps {
@@ -37,7 +38,7 @@ export function DailyPriceTable({ stockCandles }: DailyPriceProps) {
 		setPage(p)
 	}
 
-	const dayOnDayChange = (
+	const getPriceChange = (
 		currentCandle: StockCandle,
 		previousCandle?: StockCandle,
 	) => {
@@ -45,56 +46,82 @@ export function DailyPriceTable({ stockCandles }: DailyPriceProps) {
 
 		return currentCandle.openClose[1] - previousCandle.openClose[1]
 	}
-	const rateOfChange = (
+	const getRateOfChange = (
 		currentCandle: StockCandle,
 		previousCandle?: StockCandle,
 	) => {
 		if (!previousCandle) return 0
 
-		const change = dayOnDayChange(currentCandle, previousCandle)
+		const change = getPriceChange(currentCandle, previousCandle)
 		const percentageChange = (change / previousCandle.openClose[1]) * 100
-		return percentageChange.toFixed(1)
+		return +percentageChange.toFixed(1)
 	}
+
+	const changeTextColor = (change: number) => {
+		return change > 0
+			? 'text-red-500'
+			: change < 0
+				? 'text-blue-500'
+				: 'text-muted-foreground'
+	}
+	const formattedChange = (change: number) =>
+		`${change > 0 ? '+' : ''}${change}`
 
 	return (
 		<div>
 			<Table>
 				<TableHeader>
-					<TableRow>
-						<TableHead className="w-[100px]">일자</TableHead>
-						<TableHead>종가</TableHead>
-						<TableHead>전일대비</TableHead>
-						<TableHead>등락률</TableHead>
-						<TableHead>시가</TableHead>
-						<TableHead>고가</TableHead>
-						<TableHead>저가</TableHead>
+					<TableRow className="font-bold">
+						<TableHead className="text-right">일자</TableHead>
+						<TableHead className="text-right">종가</TableHead>
+						<TableHead className="text-right">전일대비</TableHead>
+						<TableHead className="text-right">등락률</TableHead>
+						<TableHead className="text-right">시가</TableHead>
+						<TableHead className="text-right">고가</TableHead>
+						<TableHead className="text-right">저가</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					{visibleCandles.map((candle, index, candles) => (
-						<TableRow key={index}>
-							<TableCell className="font-medium">
-								{candle.date}
-							</TableCell>
-							<TableCell>{candle.openClose[1]}</TableCell>
-							<TableCell>
-								{dayOnDayChange(
-									candle,
-									candles[index + 1] ?? null,
-								)}
-							</TableCell>
-							<TableCell>
-								{rateOfChange(
-									candle,
-									candles[index + 1] ?? null,
-								)}
-								%
-							</TableCell>
-							<TableCell>{candle.openClose[0]}</TableCell>
-							<TableCell>{candle.highLow[0]}</TableCell>
-							<TableCell>{candle.highLow[1]}</TableCell>
-						</TableRow>
-					))}
+					{visibleCandles.map((candle, index, candles) => {
+						const priceChange = getPriceChange(
+							candle,
+							candles[index + 1] ?? null,
+						)
+						const rateOfChange = getRateOfChange(
+							candle,
+							candles[index + 1] ?? null,
+						)
+
+						return (
+							<TableRow key={index} className="font-bold">
+								<TableCell className="text-right">
+									{formatDateForLWC(candle.date)}
+								</TableCell>
+								<TableCell className="text-right">
+									{candle.openClose[1]}
+								</TableCell>
+								<TableCell
+									className={`text-right ${changeTextColor(priceChange)}`}
+								>
+									{formattedChange(priceChange)}
+								</TableCell>
+								<TableCell
+									className={`text-right ${changeTextColor(rateOfChange)}`}
+								>
+									{formattedChange(rateOfChange)}%
+								</TableCell>
+								<TableCell className="text-right">
+									{candle.openClose[0]}
+								</TableCell>
+								<TableCell className="text-right">
+									{candle.highLow[1]}
+								</TableCell>
+								<TableCell className="text-right">
+									{candle.highLow[0]}
+								</TableCell>
+							</TableRow>
+						)
+					})}
 				</TableBody>
 			</Table>
 			<Pagination>
